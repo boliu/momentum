@@ -69,6 +69,7 @@ for index, name in enumerate(_ROW_NAMES):
 
 class Row:
   def __init__(self, parsed_array):
+    # TODO: Can make this faster by hard coding
     self.permno = parsed_array[_R2I['PERMNO']]
     self.date = parsed_array[_R2I['date']]
     self.exchcd = parsed_array[_R2I['EXCHCD']]
