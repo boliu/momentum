@@ -1,3 +1,5 @@
+import datetime
+
 _ROW_NAMES=[
   'PERMNO',
   'date',
@@ -75,9 +77,28 @@ class Row:
     self.exchcd = parsed_array[_R2I['EXCHCD']]
     self.price = parsed_array[_R2I['PRC']]
     self.volume = parsed_array[_R2I['VOL']]
-    self.facpr = parsed_array[_R2I['FACPR']]
+    # self.facpr = parsed_array[_R2I['FACPR']]
     self.bidlo = parsed_array[_R2I['BIDLO']]
     self.askhi = parsed_array[_R2I['ASKHI']]
+
+class ParsedRow:
+  def __init__(self, row):
+    # TODO: Do this lazily.
+    self.permno = int(row.permno)
+    self.date = self.ParseDate(row.date)
+    self.exchcd = int(row.exchcd)
+    self.price = float(row.price)
+    self.volume = int(row.volume)
+    # self.facpr = parsed_array[_R2I['FACPR']]
+    self.bidlo = float(row.bidlo)
+    self.askhi = float(row.askhi)
+
+  @staticmethod
+  def ParseDate(date):
+    int_date = int(date)
+    return datetime.date(year = (int_date / 10000) % 10000,
+                         month = (int_date / 100) % 100,
+                         day = int_date % 100)
 
 def test():
   parsed_array = ['10318', '19911230', '', '11', '3', '2860', '5766520', 'BLCC', 'BALCHEM CORP', '', 'BLCC', '', 'Q', 'A', 'R', '8237', '10810', '3', '2800', '5766520', '19911111', '', '', '', '', '19911227', '19911206', '1', '28', '280', '5523', '0', '0.33333', '0.33333', '', '', '', '', '', '', '1', '2', '5', '2', '6.875', '8', '6.875', '1500', '0.055156', '6.875', '7.875', '2020', '11.390625', '11.390625', '', '2', '0.055156', '0.020303', '0.020295', '0.012477', '0.012459', '0.021355', '', '', 'OTE', 'NTP', 'NTV', 'FALSE', '', '', '', '24.192675', '5.435184444', '13.125', '-20.24305556', '', '', '', '', '', '', '', '', '', '3', '6958', '1.33333', '1.6666625', '11.45830469', '13.3333', '11.45830469']
@@ -87,9 +108,19 @@ def test():
   assert row.exchcd == '3'
   assert row.price == '6.875'
   assert row.volume == '1500'
-  assert row.facpr == '0.33333'
+  #assert row.facpr == '0.33333'
   assert row.bidlo == '6.875'
   assert row.askhi == '8'
+
+  parsed_row = ParsedRow(row)
+  assert parsed_row.permno == 10318
+  assert parsed_row.date == datetime.date(1991, 12, 30)
+  assert parsed_row.exchcd == 3
+  assert parsed_row.price == 6.875
+  assert parsed_row.volume == 1500
+  #assert parsed_row.facpr == '0.33333'
+  assert parsed_row.bidlo == 6.875
+  assert parsed_row.askhi == 8
 
 if __name__ == '__main__':
   test()
