@@ -7,18 +7,22 @@ class LastNHigh:
     self._n = n
     self._deque = collections.deque(maxlen=n)
 
-  def insert(self, value):
+  def insert(self, new_value):
     if self._deque and self._deque[0][0] + self._n <= self._place:
       self._deque.popleft()
-    self._deque.append((self._place, value,))
+
+    while self._deque:
+      (place, value) = self._deque[-1]
+      if value <= new_value:
+        self._deque.pop()
+      else:
+        break
+
+    self._deque.append((self._place, new_value,))
     self._place = self._place + 1
 
   def last_n_high(self):
-    current_max = self._deque[0][1]
-    for place, value in self._deque:
-      if value > current_max:
-        current_max = value
-    return current_max
+    return self._deque[0][1]
 
 
 def test_basic():
