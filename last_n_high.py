@@ -3,15 +3,19 @@ import time
 
 class LastNHigh:
   def __init__(self, n):
+    self._place = 0
     self._n = n
     self._deque = collections.deque(maxlen=n)
 
   def insert(self, value):
-    self._deque.append(value)
+    if self._deque and self._deque[0][0] + self._n <= self._place:
+      self._deque.popleft()
+    self._deque.append((self._place, value,))
+    self._place = self._place + 1
 
   def last_n_high(self):
-    current_max = self._deque[0]
-    for value in self._deque:
+    current_max = self._deque[0][1]
+    for place, value in self._deque:
       if value > current_max:
         current_max = value
     return current_max
