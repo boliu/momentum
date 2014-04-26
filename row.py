@@ -84,7 +84,7 @@ class Row:
     self.exchcd = parsed_array[_R2I['EXCHCD']]
     self.price = parsed_array[_R2I['PRC']]
     self.volume = parsed_array[_R2I['VOL']]
-    # self.facpr = parsed_array[_R2I['FACPR']]
+    self.facpr = parsed_array[_R2I['FACPR']]
     self.bidlo = parsed_array[_R2I['BIDLO']]
     self.askhi = parsed_array[_R2I['ASKHI']]
 
@@ -114,7 +114,10 @@ class ParsedRow(ParsedFirstRow):
       self.exchcd = int(row.exchcd)
       self.price = float(row.price)
       self.volume = int(row.volume)
-      # self.facpr = parsed_array[_R2I['FACPR']]
+      if row.facpr:
+        self.facpr = float(row.facpr)
+      else:
+        self.facpr = 0.0
       self.bidlo = float(row.bidlo)
       self.askhi = float(row.askhi)
     except ValueError:
@@ -128,7 +131,7 @@ def test():
   assert row.exchcd == '3'
   assert row.price == '6.875'
   assert row.volume == '1500'
-  #assert row.facpr == '0.33333'
+  assert row.facpr == '0.33333'
   assert row.bidlo == '6.875'
   assert row.askhi == '8'
 
@@ -138,7 +141,7 @@ def test():
   assert parsed_row.exchcd == 3
   assert parsed_row.price == 6.875
   assert parsed_row.volume == 1500
-  #assert parsed_row.facpr == '0.33333'
+  assert parsed_row.facpr == 0.33333
   assert parsed_row.bidlo == 6.875
   assert parsed_row.askhi == 8
 
