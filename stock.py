@@ -7,6 +7,7 @@ class Stock:
   def __init__(self, first_row):
     self._permno_str = first_row.permno
     self._first_row = ParsedFirstRow(first_row)
+    self._factor = 1.0
 
     self.last_true_range = collections.deque(maxlen=Config.D)
     self.last_d_true_range_sum = 0
@@ -21,5 +22,7 @@ class Stock:
     if not row.parsed:
       return
 
+    self._factor = self._factor * (1.0 + row.facpr)
+
   def done(self):
-    pass
+    print self._permno_str, self._factor
