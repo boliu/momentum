@@ -5,3 +5,5 @@ class Config:
   BUFFER_SIZE=1000 * 1024 * 1024
 
   D=45
+  N=3
+  M=10
