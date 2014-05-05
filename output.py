@@ -1,7 +1,10 @@
+import sys
+
 def _print_csv(args):
   for arg in args:
-    print arg, ',',
-  print
+    sys.stdout.write(str(arg))
+    sys.stdout.write(',')
+  sys.stdout.write('\n')
 
 def print_header():
   _print_csv((
