@@ -87,6 +87,7 @@ class Row:
     self.facpr = parsed_array[_R2I['FACPR']]
     self.bidlo = parsed_array[_R2I['BIDLO']]
     self.askhi = parsed_array[_R2I['ASKHI']]
+    self.divamt = parsed_array[_R2I['DIVAMT']]
 
 class ParsedFirstRow:
   def __init__(self, row):
@@ -120,6 +121,10 @@ class ParsedRow(ParsedFirstRow):
         self.facpr = 0.0
       self.bidlo = float(row.bidlo)
       self.askhi = float(row.askhi)
+      if row.divamt:
+        self.divamt = float(row.divamt)
+      else:
+        self.divamt = 0.0
     except ValueError:
       self.parsed = False
 
@@ -134,6 +139,7 @@ def test():
   assert row.facpr == '0.33333'
   assert row.bidlo == '6.875'
   assert row.askhi == '8'
+  assert row.divamt == '0'
 
   parsed_row = ParsedRow(row)
   assert parsed_row.permno == 10318
@@ -144,6 +150,7 @@ def test():
   assert parsed_row.facpr == 0.33333
   assert parsed_row.bidlo == 6.875
   assert parsed_row.askhi == 8
+  assert parsed_row.divamt == 0.0
 
 if __name__ == '__main__':
   test()

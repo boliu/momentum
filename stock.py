@@ -12,10 +12,12 @@ class _Transaction:
     self.buy_factor = factor
     self.average_true_range = average_true_range
     self.exit_price = exit_price
+    self.adj_dividents = 0
 
-  def update_exit_price(self, exit_price):
+  def update(self, exit_price, adj_dividents):
     if exit_price > self.exit_price:
       self.exit_price = exit_price
+    self.adj_dividents += adj_dividents
 
   def sell(self, sell_row, sell_factor):
     print self.buy_row.price * self.buy_factor, '->',\
@@ -84,7 +86,7 @@ class Stock:
       self._transaction = _Transaction(row, self._factor, average_true_range, exit_price)
       self._state = Stock._BOUGHT
     elif self._state == Stock._BOUGHT:
-      self._transaction.update_exit_price(exit_price)
+      self._transaction.update(exit_price, self._factor * row.divamt)
       if adj_price <= self._transaction.exit_price:
         self._state = Stock._SELL_TOMORROW
     else:
