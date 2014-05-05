@@ -80,7 +80,11 @@ class Stock:
     self._high_price.insert(adj_price)
 
     if self._state == Stock._PENDING:
-      if adj_price > high_price:
+      if adj_price > high_price and \
+          row.exchcd >= Config.EXCHCD_LOW and \
+          row.exchcd <= Config.EXCHCD_LOW and \
+          row.price >= Config.P and \
+          row.volume >= Config.V:
         self._state = Stock._BUY_TOMORROW
     elif self._state == Stock._BUY_TOMORROW:
       self._transaction = _Transaction(row, self._factor, average_true_range, exit_price)

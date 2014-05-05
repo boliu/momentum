@@ -7,3 +7,8 @@ class Config:
   D=45
   N=3
   M=10
+
+  EXCHCD_LOW = 1
+  EXCHCD_HIGH = 3
+  P = 15
+  V = 1000000
