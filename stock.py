@@ -5,6 +5,7 @@ import sys
 from row import ParsedRow, ParsedFirstRow
 from config import Config
 from last_n_high import LastNHigh
+import output
 
 class _Transaction:
   def __init__(self, parsed_row, factor, average_true_range, exit_price):
@@ -20,8 +21,26 @@ class _Transaction:
     self.adj_dividents += adj_dividents
 
   def sell(self, sell_row, sell_factor):
-    print self.buy_row.price * self.buy_factor, '->',\
-            sell_row.price * sell_factor
+    profit = sell_row.bidlo * sell_factor + self.adj_dividents - self.buy_row.askhi * self.buy_factor
+    output.print_trasaction(
+        ticker=self.buy_row.ticker,
+        comnam=self.buy_row.common_name,
+        permno=self.buy_row.permno,
+        entrydate=self.buy_row.date,
+        entryPRC=self.buy_row.price,
+        entryBIDLO=self.buy_row.bidlo,
+        entryASKHI=self.buy_row.askhi,
+        entryVOL=self.buy_row.volume,
+        entryFactor=self.buy_factor,
+        exitdate=sell_row.date,
+        exitPRC=sell_row.price,
+        exitBIDLO=sell_row.bidlo,
+        exitASKHI=sell_row.askhi,
+        exitVOL=sell_row.volume,
+        exitFactor=sell_factor,
+        divident=self.adj_dividents,
+        PnL=profit)
+
 
 class Stock:
   _PENDING = 0

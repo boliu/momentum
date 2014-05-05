@@ -5,8 +5,10 @@ import sys
 from row import Row
 from config import Config
 from stock import Stock
+import output
 
 def main():
+  output.print_header()
   with io.open(Config.SAMPLE_INFILE, buffering=Config.BUFFER_SIZE) as infile:
     stock = None
     for line in infile:

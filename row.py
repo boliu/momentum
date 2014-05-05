@@ -88,6 +88,8 @@ class Row:
     self.bidlo = parsed_array[_R2I['BIDLO']]
     self.askhi = parsed_array[_R2I['ASKHI']]
     self.divamt = parsed_array[_R2I['DIVAMT']]
+    self.ticker = parsed_array[_R2I['TICKER']]
+    self.common_name = parsed_array[_R2I['COMNAM']]
 
 class ParsedFirstRow:
   def __init__(self, row):
@@ -125,6 +127,8 @@ class ParsedRow(ParsedFirstRow):
         self.divamt = float(row.divamt)
       else:
         self.divamt = 0.0
+      self.ticker = row.ticker
+      self.common_name = row.common_name
     except ValueError:
       self.parsed = False
 
