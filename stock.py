@@ -80,7 +80,7 @@ class Stock:
     adj_bid_low = row.bidlo * self._factor
 
     true_range = max(
-      adj_price - self._adj_price,
+      adj_ask_high - adj_bid_low,
       adj_ask_high - self._adj_price,
       self._adj_price - adj_bid_low)
     self._adj_price = adj_price
