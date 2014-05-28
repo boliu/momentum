@@ -60,7 +60,7 @@ class Stock:
 
     self._last_true_range = collections.deque(maxlen=Config.D)
     self._last_d_true_range_sum = 0
-    self._high_price = LastNHigh(Config.N * 365)
+    self._high_price = LastNHigh(Config.N * 252)
     self._n_time_delta = datetime.timedelta(days=Config.N * 365)
 
   def same_stock(self, row):
