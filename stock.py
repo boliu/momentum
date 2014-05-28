@@ -101,7 +101,7 @@ class Stock:
     if self._state == Stock._PENDING:
       if adj_price > high_price and \
           row.exchcd >= Config.EXCHCD_LOW and \
-          row.exchcd <= Config.EXCHCD_LOW and \
+          row.exchcd <= Config.EXCHCD_HIGH and \
           row.price >= Config.P and \
           row.volume >= Config.V:
         self._state = Stock._BUY_TOMORROW
