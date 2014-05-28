@@ -1,5 +1,6 @@
 import collections
 import time
+import sys
 
 class LastNHigh:
   def __init__(self, n):
@@ -20,8 +21,11 @@ class LastNHigh:
 
     self._deque.append((self._place, new_value,))
     self._place = self._place + 1
+    assert self._deque
 
   def last_n_high(self):
+    if not self._deque:
+      return sys.maxint
     return self._deque[0][1]
 
 
